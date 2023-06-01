@@ -19,4 +19,4 @@ Route::get('/', function () {
 
 Route::get('/about', function(){
     return '<h1> about page </h1> <a href="/"> Back to home <a>';
-});
+}); 
