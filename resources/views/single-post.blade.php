@@ -1,4 +1,4 @@
-<x-logged-in-layout>
+<x-layout>
     <div class="container py-md-5 container--narrow">
         <div class="d-flex justify-content-between">
           <h2>Example Post Title Here</h2>
