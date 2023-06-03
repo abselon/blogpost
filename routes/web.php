@@ -31,5 +31,7 @@ Route::post('/create-post', [PostController::class, 'storenewpost'])->middleware
 
 Route::get('/post/{post}', [PostController::class, 'viewSinglePost'])->middleware('mustbeloggedin');
 
+Route::delete('/post/{post}', [PostController::class, 'delete']);
+
 //Profile Related Routes
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);

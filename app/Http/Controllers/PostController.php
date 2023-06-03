@@ -36,4 +36,15 @@ class PostController extends Controller
         $post['body'] = Str::markdown($post->body);   //adds the mrkdown support (you need to use single {} in blade document) use strip_tags to only allow specific
         return view('single-post', ['post'=> $post]);   
     }
+
+    public function delete(Post $post)
+    {
+        if (auth()->user()->cannot('delete', $post))
+        {
+            return "You don't have the rights to perform this action";
+        }
+        $post->delete();
+        return redirect ('/profile/'. auth()->user()->username)->with('success', 'Post successfully deleted.');
+    }
+
 }
