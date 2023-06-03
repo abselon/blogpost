@@ -16,15 +16,20 @@ use App\Http\Controllers\UserController;
 */
 
 //user related routes for login/register
-Route::get('/', [UserController::class, "showcorrecthomepage"]);
+Route::get('/', [UserController::class, "showcorrecthomepage"])->name('login');
 
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'register'])->middleware('guest');
 
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->middleware('mustbeloggedin');
 
 //Blog post related routes
-Route::get('/create-post', [PostController::class, 'showCreateForm']);
-Route::post('/create-post', [PostController::class, 'storenewpost']);
-Route::get('/post/{post}', [PostController::class, 'viewSinglePost']);
+Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustbeloggedin');
+
+Route::post('/create-post', [PostController::class, 'storenewpost'])->middleware('mustbeloggedin');
+
+Route::get('/post/{post}', [PostController::class, 'viewSinglePost'])->middleware('mustbeloggedin');
+
+//Profile Related Routes
+Route::get('/profile/{user:username}', [UserController::class, 'profile']);

@@ -59,4 +59,10 @@ class UserController extends Controller
         auth()->login($user);
         return redirect('/')->with('success', 'Your account was successfully created, and Logged in.');
     }
+
+    public function profile(User $user) //route hinting so laravel can look up in database
+    {
+
+        return view('profile-posts',['username' => $user->username, 'posts'=> $user->posts()->latest()->get(), 'postCount' => $user->posts()->count()]);
+    }
 }
