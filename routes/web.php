@@ -39,3 +39,14 @@ Route::put('/post/{post}', [PostController::class, 'actuallyUpdate'])->middlewar
 
 //Profile Related Routes
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
+
+
+//admin routes
+Route::get('/admins-only', function()
+{
+    // if(Gate::allows('visitAdminPages'))
+    // {
+    //     return 'You are accessing as admin';
+    // }
+    return '--Only admins have access to this page--';
+})->middleware('can:visitAdminPages');
