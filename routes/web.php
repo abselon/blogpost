@@ -31,7 +31,11 @@ Route::post('/create-post', [PostController::class, 'storenewpost'])->middleware
 
 Route::get('/post/{post}', [PostController::class, 'viewSinglePost'])->middleware('mustbeloggedin');
 
-Route::delete('/post/{post}', [PostController::class, 'delete']);
+Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware('can:delete,post');
+
+Route::get('/post/{post}/edit', [PostController::class, 'showEditForm'])->middleware('can:update,post');
+
+Route::put('/post/{post}', [PostController::class, 'actuallyUpdate'])->middleware('can:update,post');
 
 //Profile Related Routes
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
