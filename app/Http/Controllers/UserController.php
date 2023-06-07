@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -63,6 +66,43 @@ class UserController extends Controller
     public function profile(User $user) //route hinting so laravel can look up in database
     {
 
-        return view('profile-posts',['username' => $user->username, 'posts'=> $user->posts()->latest()->get(), 'postCount' => $user->posts()->count()]);
+        return view('profile-posts',['avatar' => $user->avatar, 'username' => $user->username, 'posts'=> $user->posts()->latest()->get(), 'postCount' => $user->posts()->count()]);
+    }
+
+    public function showAvatarForm()
+    {
+        return view('avatar-form');
+    }
+
+    public function storeAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|max:3000'
+        ]);
+
+        $user = auth()->user();
+
+        $filename = $user->id . '-' . uniqid() . '.jpg';
+
+        $imgData = Image::make($request->file('avatar'))->fit(120)->encode('jpg');
+        Storage::put('public/avatars/' . $filename, $imgData);
+
+        //         $image = $request->file('avatar');
+        // $filename = time() . '.' . $image->getClientOriginalExtension();
+        // $path = public_path('avatars' . $filename);
+
+        // Image::make($image)->fit(300, 300)->save($path);
+
+        $oldAvatar = $user->avatar;
+
+        $user->avatar = $filename;
+        $user->save(); //saves the avatar file name to the database
+
+        if ($oldAvatar != "/fallback-avatar.jpg")
+        {
+            Storage::delete(str_replace("/storage/storage","public/", $oldAvatar));
+        }
+
+        return back()->with('success', 'Congrats, Your Avatar has been set successfully.');
     }
 }
