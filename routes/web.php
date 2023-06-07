@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,3 +55,8 @@ Route::get('/admins-only', function()
     // }
     return '--Only admins have access to this page--';
 })->middleware('can:visitAdminPages');
+
+//Follow related routes
+
+Route::post('/create-follow/{user:username}', [FollowController::class, 'createFollow'])->middleware('mustbeloggedin');
+Route::post('/remove-follow/{user:username}', [FollowController::class, 'removeFollow'])->middleware('mustbeloggedin');
