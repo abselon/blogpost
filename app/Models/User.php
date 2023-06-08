@@ -58,8 +58,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function feedPosts()
+    {
+        return $this->hasManyThrough(Post::class, Follow::class, 'users_id', 'users_id', 'id', 'followeduser');
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followeduser'); //can also add 'id'
+    }
+
+    public function followingTheseUsers()
+    {
+        return $this->hasMany(Follow::class, 'users_id'); //can also add 'id'
+    }
     public function posts()
     {
-        return $this->hasMany(Post::class, 'user_id');
+        return $this->hasMany(Post::class, 'users_id');
     }
 }

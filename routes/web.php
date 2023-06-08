@@ -42,6 +42,7 @@ Route::get('/post/{post}/edit', [PostController::class, 'showEditForm'])->middle
 
 Route::put('/post/{post}', [PostController::class, 'actuallyUpdate'])->middleware('can:update,post');
 
+Route::get('/search/{term}', [PostController::class, 'search']);
 //Profile Related Routes
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
 
@@ -59,4 +60,9 @@ Route::get('/admins-only', function()
 //Follow related routes
 
 Route::post('/create-follow/{user:username}', [FollowController::class, 'createFollow'])->middleware('mustbeloggedin');
+
 Route::post('/remove-follow/{user:username}', [FollowController::class, 'removeFollow'])->middleware('mustbeloggedin');
+
+Route::get('/profile/{user:username}/followers', [UserController::class, 'profileFollowers']);
+
+Route::get('/profile/{user:username}/following', [UserController::class, 'profileFollowing']);

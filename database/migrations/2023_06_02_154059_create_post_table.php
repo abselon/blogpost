@@ -18,7 +18,7 @@ class CreatePostTable extends Migration
             $table->timestamps();
             $table->string('title');
             $table->longText('body');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); //foreign key used where 'user' is table and 'id' is the column name
+            $table->foreignId('users_id')->constrained()->onDelete('cascade'); //foreign key used where 'user' is table and 'id' is the column name
         });
     }
 

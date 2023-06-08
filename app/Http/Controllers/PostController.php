@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function search($term) {
+        $posts = Post::search($term)->get();
+        $posts->load('user:id,username,avatar');
+        return $posts;
+        //return Post::where('title', 'LIKE', '%' . $term . '%')->orWhere('body', 'LIKE', '%' . $term . '%')->with('user:id,username,avatar')->get();
+    }
     public function showCreateForm()
     {
         // if(auth()->check())
@@ -25,7 +32,7 @@ class PostController extends Controller
         ]);
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
-        $incomingFields['user_id'] = auth()->id();
+        $incomingFields['users_id'] = auth()->id();
 
         $newPost = Post::create($incomingFields);
         return redirect("/post/{$newPost->id}")-> with('success', 'Congrats! New Post Successfully Created!');
