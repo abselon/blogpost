@@ -25,7 +25,7 @@ class PostController extends Controller
         ]);
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
-        $incomingFields['user_id'] = auth()->id();
+        $incomingFields['users_id'] = auth()->id();
 
         $newPost = Post::create($incomingFields);
         return redirect("/post/{$newPost->id}")-> with('success', 'Congrats! New Post Successfully Created!');

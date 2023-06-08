@@ -57,7 +57,7 @@ class PostPolicy
         {
             return true;
         }
-        return $user->id === $post->user_id;
+        return $user->id === $post->users_id;
     }
 
     /**
@@ -74,7 +74,7 @@ class PostPolicy
             return true;
         }
 
-        return $user->id === $post->user_id;
+        return $user->id === $post->users_id;
         
     }
 
